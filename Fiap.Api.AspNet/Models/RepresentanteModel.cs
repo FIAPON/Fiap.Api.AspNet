@@ -30,7 +30,7 @@ namespace Fiap.Api.AspNet.Models
 
 
         //Navegation Property
-        public IList<ClienteModel> Clientes { get; set; }
+        public IList<ClienteModel>? Clientes { get; set; }
 
         public RepresentanteModel()
         {

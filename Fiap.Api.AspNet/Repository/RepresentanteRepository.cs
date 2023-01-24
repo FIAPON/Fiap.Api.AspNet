@@ -26,7 +26,6 @@ namespace Fiap.Api.AspNet.Repository
             var lista = new List<RepresentanteModel>();
 
             lista = dataBaseContext.Representante
-                    .Include(r => r.Clientes)
                         .ToList<RepresentanteModel>();
 
             return lista;

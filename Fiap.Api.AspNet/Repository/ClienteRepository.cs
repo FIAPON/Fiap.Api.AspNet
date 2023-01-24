@@ -18,6 +18,7 @@ namespace Fiap.Api.AspNet.Repository
         public IList<ClienteModel> Listar()
         {
             var lista = dataBaseContext.Cliente
+                    .AsNoTracking()
                     .Include(c => c.Representante)
                         .ToList<ClienteModel>();
 
@@ -31,7 +32,7 @@ namespace Fiap.Api.AspNet.Repository
 
             var cliente = new ClienteModel();
 
-            cliente = dataBaseContext.Cliente
+            cliente = dataBaseContext.Cliente.AsNoTracking()
                     .Include(c => c.Representante)
                         .Where(c => c.ClienteId == id)
                             .FirstOrDefault();

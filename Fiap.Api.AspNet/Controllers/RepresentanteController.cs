@@ -78,15 +78,62 @@ namespace Fiap.Api.AspNet.Controllers
             try
             {
                 representanteRepository.Inserir(representanteModel);
-                var location = new Uri(Request.GetEncodedUrl() + representanteModel.RepresentanteId);
+                var location = new Uri(Request.GetEncodedUrl() + "/" + representanteModel.RepresentanteId);
                 return Created(location, representanteModel);
             }
             catch (Exception error)
             {
-                return BadRequest(new { message = $"Não foi possível o Representante. Detalhes: {error.Message}" });
+                return BadRequest(new { message = $"Não foi possível inserir Representante. Detalhes: {error.Message}" });
             }
         }
 
+        [HttpPut("{id:int}")]
+        public ActionResult<RepresentanteModel> Put([FromRoute] int id, [FromBody] RepresentanteModel representanteModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (representanteModel.RepresentanteId != id)
+            {
+                return NotFound();
+            }
+
+
+            try
+            {
+                representanteRepository.Alterar(representanteModel);
+                return NoContent();
+            }
+            catch (Exception error)
+            {
+                return BadRequest(new { message = $"Não foi possível alterar Representante. Detalhes: {error.Message}" });
+            }
+        }
+
+
+        [HttpDelete("{id:int}")]
+        public ActionResult<RepresentanteModel> Delete([FromRoute] int id)
+        {
+            try { 
+                var representanteModel = representanteRepository.Consultar(id);
+
+                if (representanteModel != null)
+                {
+                    representanteRepository.Excluir(id);
+                    // Retorno Sucesso.
+                    // Efetuou a exclusão, porém sem necessidade de informar os dados.
+                    return NoContent(); 
+                } else
+                {
+                    return NotFound();
+                }
+            } catch (Exception e)
+            {
+                return BadRequest();
+            }
+        }
 
 
 

@@ -68,7 +68,7 @@ namespace Fiap.Api.AspNet.Repository
         public RepresentanteModel ConsultarPorParteNome(String nomeParcial)
         {
             var representante = dataBaseContext.Representante.
-                    Where(r => r.NomeRepresentante.Contains(nomeParcial)).
+                    Where(r => r.NomeRepresentante.Contains(nomeParcial)).AsNoTracking().
                         FirstOrDefault<RepresentanteModel>();
 
             return representante;
@@ -76,7 +76,8 @@ namespace Fiap.Api.AspNet.Repository
 
         public RepresentanteModel Consultar(int id)
         {
-            var representante = dataBaseContext.Representante.Find(id);
+            var representante = dataBaseContext.Representante.AsNoTracking()
+                    .FirstOrDefault( r => r.RepresentanteId == id);
 
             return representante;
         }
@@ -95,10 +96,16 @@ namespace Fiap.Api.AspNet.Repository
 
         public void Excluir(int id)
         {
-            var representante = new RepresentanteModel(id, "");
+            try
+            {
+                var representante = new RepresentanteModel(id, "");
 
-            dataBaseContext.Representante.Remove(representante);
-            dataBaseContext.SaveChanges();
+                dataBaseContext.Representante.Remove(representante);
+                dataBaseContext.SaveChanges();
+            } catch (Exception e)
+            {
+                throw e;
+            }
         }
 
     }

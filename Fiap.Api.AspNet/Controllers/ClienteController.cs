@@ -80,7 +80,7 @@ namespace Fiap.Api.AspNet.Controllers
             try
             {
                 clienteRepository.Inserir(ClienteModel);
-                var location = new Uri(Request.GetEncodedUrl() + "/" + ClienteModel.ClienteId);
+                var location = new Uri(Request.GetEncodedUrl()  + ClienteModel.ClienteId);
                 return Created(location, ClienteModel);
             }
             catch (Exception error)

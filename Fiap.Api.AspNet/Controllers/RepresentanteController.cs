@@ -78,7 +78,7 @@ namespace Fiap.Api.AspNet.Controllers
             try
             {
                 representanteRepository.Inserir(representanteModel);
-                var location = new Uri(Request.GetEncodedUrl() + "/" + representanteModel.RepresentanteId);
+                var location = new Uri(Request.GetEncodedUrl() + representanteModel.RepresentanteId);
                 return Created(location, representanteModel);
             }
             catch (Exception error)
